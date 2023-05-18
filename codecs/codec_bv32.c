@@ -58,10 +58,10 @@ static int bv32tolin_framein(struct ast_trans_pvt *pvt, struct ast_frame *f)
 		unsigned char *src = f->data.ptr + x;
 		int16_t *dst = pvt->outbuf.i16 + pvt->samples;
 
-		int len = bv32_decode(tmp->decoder, dst, src, BV32_FRAME_LEN);
+		bv32_decode(tmp->decoder, dst, src, BV32_FRAME_LEN);
 
 		pvt->samples += BV32_SAMPLES;
-		pvt->datalen += len;
+		pvt->datalen += BV32_SAMPLES * 2;
 	}
 
 	return 0;
@@ -170,7 +170,7 @@ static struct ast_translator lin16tobv32 = {
 	.sample = slin16_sample,
 	.desc_size = sizeof(struct bv32_translator_pvt),
 	.buffer_samples = BUFFER_SAMPLES,
-	.buf_size = BUFFER_SAMPLES,
+	.buf_size = BUFFER_SAMPLES * 2,
 };
 
 static int unload_module(void)
