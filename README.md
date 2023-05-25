@@ -24,7 +24,7 @@ Apply the patch:
 
 Install libraries:
 
-If you do not want transcoding but pass-through only, please, skip this step. To support transcoding, you’ll need to install the BroadVoice library from Sangoma FreeSWITCH, for example, in Debian/Ubuntu:
+If you do not want transcoding but pass-through only, please, skip this step. To support transcoding, you’ll need to install the BroadVoice library from SignalWire FreeSWITCH, for example, in Debian/Ubuntu:
 
 	wget files.freeswitch.org/downloads/libs/broadvoice-0.1.0.tar.gz
 	tar zxf broadvoice*
