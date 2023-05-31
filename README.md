@@ -61,7 +61,7 @@ Several VoIP/SIP implementations use BroadVoice16:
 * [Linphone](https://github.com/BelledonneCommunications/mediastreamer2/blob/2ef88ff7f9b3506b7c10e6925c36ccba2f151f86/src/audiofilters/bv16.c)
 * [Sipdroid](https://github.com/i-p-tel/sipdroid/blob/ef15c6d68cf402088c2960802d2dec87be15f2a9/app/src/main/jni/bv16_jni.cpp)
 
-Unlike with other audio codecs, ‘16’ ist not about the sample rate but bit rate. It is a non-HD audio codec. Although not compatible with this module, those projects can be used as coding example for the original BroadVoice library.
+Unlike with other audio codecs, ‘16’ is not about the sample rate but bit rate. It is a non-HD audio codec. Although not compatible with this module, those projects can be used as coding example for the original BroadVoice library.
 
 Several VoIP/SIP implementations use BroadVoice32:
 * Aastra 6700i and 6800i Series, removed with firmware 4.1.x (Jun. 2015; DEF39955)
