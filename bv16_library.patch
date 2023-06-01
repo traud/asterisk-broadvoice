@@ -1,0 +1,37 @@
+--- bv16/bv16.h
++++ bv16/bv16.h
+@@ -25,6 +25,14 @@
+   $Log$
+ ******************************************************************************/
+ 
++#ifndef BV16_H
++#define BV16_H
++
++#include <bv16-floatingpoint/bvcommon/typedef.h>
++#include <bv16-floatingpoint/bvcommon/bvcommon.h>
++#include <bv16-floatingpoint/bv16/bv16cnst.h>
++#include <bv16-floatingpoint/bv16/bv16strct.h>
++
+ extern void Reset_BV16_Encoder(
+ struct BV16_Encoder_State *cs);
+ 
+@@ -45,3 +53,5 @@
+ struct  BV16_Decoder_State   *ds,
+ short	*x);
+ 
++#endif
++
+--- bv16/bitpack.h
++++ bv16/bitpack.h
+@@ -28,6 +28,11 @@
+ #ifndef BITPACK_H
+ #define BITPACK_H
+ 
++#include <bv16-floatingpoint/bvcommon/typedef.h>
++#include <bv16-floatingpoint/bvcommon/bvcommon.h>
++#include <bv16-floatingpoint/bv16/bv16cnst.h>
++#include <bv16-floatingpoint/bv16/bv16strct.h>
++
+ void BV16_BitPack(UWord8 * PackedStream, struct BV16_Bit_Stream * BitStruct );
+ void BV16_BitUnPack(UWord8 * PackedStream, struct BV16_Bit_Stream * BitStruct );
+ 

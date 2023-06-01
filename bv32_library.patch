@@ -1,0 +1,37 @@
+--- bv32/bv32.h
++++ bv32/bv32.h
+@@ -25,6 +25,14 @@
+   $Log$
+ ******************************************************************************/
+ 
++#ifndef BV32_H
++#define BV32_H
++
++#include <bvcommon/typedef.h>
++#include <bvcommon/bvcommon.h>
++#include <bv32/bv32cnst.h>
++#include <bv32/bv32strct.h>
++
+ extern void Reset_BV32_Coder(
+ struct BV32_Encoder_State *cs);
+ 
+@@ -45,3 +53,5 @@
+ struct  BV32_Decoder_State   *ds,
+ short	*out);
+ 
++#endif
++
+--- bv32/bitpack.h
++++ bv32/bitpack.h
+@@ -28,6 +28,11 @@
+ #ifndef BITPACK_H
+ #define BITPACK_H
+ 
++#include <bvcommon/typedef.h>
++#include <bvcommon/bvcommon.h>
++#include <bv32/bv32cnst.h>
++#include <bv32/bv32strct.h>
++
+ void BV32_BitPack(UWord8 * PackedStream, struct BV32_Bit_Stream * BitStruct);
+ void BV32_BitUnPack(UWord8 * PackedStream, struct BV32_Bit_Stream * BitStruct);
+ 

@@ -14,18 +14,18 @@
  
 +static int bv32_samples(struct ast_frame *frame)
 +{
-+	return 320 * (frame->datalen / 80);
++	return 80 * (frame->datalen / 20);
 +}
 +
 +static struct ast_codec bv32 = {
 +	.name = "bv32",
-+	.description = "BroadVoice32 (BV32)",
++	.description = "BroadVoice32",
 +	.type = AST_MEDIA_TYPE_AUDIO,
 +	.sample_rate = 16000,
-+	.minimum_ms = 20,
++	.minimum_ms = 5,
 +	.maximum_ms = 300,
 +	.default_ms = 20,
-+	.minimum_bytes = 80,
++	.minimum_bytes = 20,
 +	.samples_count = bv32_samples,
 +	.smooth = 1,
 +};

@@ -1,0 +1,25 @@
+--- build_tools/menuselect-deps.in	(Asterisk 13.38.3)
++++ build_tools/menuselect-deps.in	(working copy)
+@@ -6,2 +6,3 @@
+ BISON=@PBX_BISON@
++BV16=@PBX_BV16@
+ CURL=@PBX_CURL@
+--- configure.ac	(Asterisk 13.38.3)
++++ configure.ac	(working copy)
+@@ -478,2 +478,3 @@
+ AST_EXT_LIB_SETUP([BLUETOOTH], [Bluetooth], [bluetooth])
++AST_EXT_LIB_SETUP([BV16], [BroadVoice16 Audio Decoder/Encoder], [bv16])
+ AST_EXT_LIB_SETUP([CAP], [POSIX 1.e capabilities], [cap])
+@@ -2561,2 +2562,4 @@
+ 
++AST_EXT_LIB_CHECK([BV16], [bv16], [BV16_Encode], [bv16-floatingpoint/bv16/bv16.h])
++
+ AST_EXT_LIB_CHECK([SPEEX], [speex], [speex_encode], [speex/speex.h], [-lm])
+--- makeopts.in	(Asterisk 13.38.3)
++++ makeopts.in	(working copy)
+@@ -137,2 +137,5 @@
+ 
++BV16_INCLUDE=@BV16_INCLUDE@
++BV16_LIB=@BV16_LIB@
++
+ CURL_INCLUDE=@CURL_INCLUDE@

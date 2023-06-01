@@ -1,0 +1,13 @@
+--- makefile
++++ makefile
+@@ -5,2 +5 @@
+-CC=gcc
+-CFLAGS= -DWMOPS=0 -DG192BITSTREAM=1 -I $(BV16DIR) -I $(BVCOMMONDIR) -O -Wall -o $@
++CFLAGS= -DWMOPS=0 -DG192BITSTREAM=0 -fPIC -I $(BV16DIR) -I $(BVCOMMONDIR) -O -Wall -o $@
+@@ -20 +18,0 @@
+-	$(OBJDIR)/bv.o \
+@@ -27 +24,0 @@
+-	$(OBJDIR)/g192.o \
+@@ -39 +36 @@
+-	$(CC) -lm $(CFLAGS) -o ../process/BroadVoice16 $(OBJS)
++	$(CC) -shared $(CFLAGS) -o libbv16.so $(OBJS)-lm

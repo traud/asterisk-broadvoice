@@ -6,7 +6,7 @@
  */
 
 /*** MODULEINFO
-	<depend>broadvoice</depend>
+	<depend>bv32</depend>
  ***/
 
 #include "asterisk.h"
@@ -18,18 +18,26 @@
 #include "asterisk/module.h"
 #include "asterisk/translate.h"         /* for ast_trans_pvt, etc   */
 
-#include <broadvoice.h>
+/* these headers depend on each other, therefore, their order matters: */
+#include <bvcommon/typedef.h>
+#include <bvcommon/bvcommon.h>
+#include <bv32/bv32cnst.h>
+#include <bv32/bv32strct.h>
+/* these headers are actually used, therefore, they only have to come last: */
+#include <bv32/bv32.h>
+#include <bv32/bitpack.h>
 
 #define BUFFER_SAMPLES    16000
-#define BV32_SAMPLES      320
+#define BV32_SAMPLES      80
+#define BV32_FRAME_LEN    20
 
 /* Sample frame data */
 #include "asterisk/slin.h"
 #include "ex_bv32.h"
 
 struct bv32_translator_pvt {
-	bv32_encode_state_t *encoder;
-	bv32_decode_state_t *decoder;
+	struct BV32_Encoder_State encoder;
+	struct BV32_Decoder_State decoder;
 	int16_t buf[BUFFER_SAMPLES];
 };
 
@@ -37,13 +45,8 @@ static int bv32_new(struct ast_trans_pvt *pvt)
 {
 	struct bv32_translator_pvt *tmp = pvt->pvt;
 
-	tmp->encoder = bv32_encode_init(NULL);
-	tmp->decoder = bv32_decode_init(NULL);
-
-	if (!tmp->encoder || !tmp->decoder) {
-		ast_log(LOG_ERROR, "Error creating BroadVoice32 (BV32) conversion\n");
-		return -1;
-	}
+	Reset_BV32_Coder(&tmp->encoder);
+	Reset_BV32_Decoder(&tmp->decoder);
 
 	return 0;
 }
@@ -55,10 +58,12 @@ static int bv32tolin_framein(struct ast_trans_pvt *pvt, struct ast_frame *f)
 	int x;
 
 	for (x = 0; x < f->datalen; x += BV32_FRAME_LEN) {
+		struct BV32_Bit_Stream stream;
 		unsigned char *src = f->data.ptr + x;
 		int16_t *dst = pvt->outbuf.i16 + pvt->samples;
 
-		bv32_decode(tmp->decoder, dst, src, BV32_FRAME_LEN);
+		BV32_BitUnPack(src, &stream);
+		BV32_Decode(&stream, &tmp->decoder, dst);
 
 		pvt->samples += BV32_SAMPLES;
 		pvt->datalen += BV32_SAMPLES * 2;
@@ -87,15 +92,17 @@ static struct ast_frame *lintobv32_frameout(struct ast_trans_pvt *pvt)
 	int samples = 0; /* output samples */
 
 	while (pvt->samples >= BV32_SAMPLES) {
+		struct BV32_Bit_Stream stream;
 		struct ast_frame *current;
 
 		/* Encode a frame of data */
-		int len = bv32_encode(tmp->encoder, pvt->outbuf.uc, tmp->buf + samples, BV32_SAMPLES);
+		BV32_Encode(&stream, &tmp->encoder, tmp->buf + samples);
+		BV32_BitPack(pvt->outbuf.uc, &stream);
 
 		samples += BV32_SAMPLES;
 		pvt->samples -= BV32_SAMPLES;
 
-		current = ast_trans_frameout(pvt, len, BV32_SAMPLES);
+		current = ast_trans_frameout(pvt, BV32_FRAME_LEN, BV32_SAMPLES);
 
 		if (!current) {
 			continue;
@@ -115,19 +122,6 @@ static struct ast_frame *lintobv32_frameout(struct ast_trans_pvt *pvt)
 	return result;
 }
 
-static void bv32_destroy_stuff(struct ast_trans_pvt *pvt)
-{
-	struct bv32_translator_pvt *tmp = pvt->pvt;
-
-	if (tmp->encoder) {
-		bv32_encode_free(tmp->encoder);
-	}
-
-	if (tmp->decoder) {
-		bv32_decode_free(tmp->decoder);
-	}
-}
-
 static struct ast_translator bv32tolin16 = {
 	.name = "bv32tolin",
 	.src_codec = {
@@ -143,7 +137,6 @@ static struct ast_translator bv32tolin16 = {
 	.format = "slin",
 	.newpvt = bv32_new,
 	.framein = bv32tolin_framein,
-	.destroy = bv32_destroy_stuff,
 	.sample = bv32_sample,
 	.desc_size = sizeof(struct bv32_translator_pvt),
 	.buffer_samples = BUFFER_SAMPLES,
@@ -166,7 +159,6 @@ static struct ast_translator lin16tobv32 = {
 	.newpvt = bv32_new,
 	.framein = lintobv32_framein,
 	.frameout = lintobv32_frameout,
-	.destroy = bv32_destroy_stuff,
 	.sample = slin16_sample,
 	.desc_size = sizeof(struct bv32_translator_pvt),
 	.buffer_samples = BUFFER_SAMPLES,

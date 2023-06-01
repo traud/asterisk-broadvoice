@@ -1,0 +1,9 @@
+--- makefile
++++ makefile
+@@ -5,2 +5 @@
+-CC=gcc
+-CFLAGS= -DWMOPS=0 -DG192BITSTREAM=1 -I $(BV32DIR) -I $(BVCOMMONDIR) -O -Wall -o $@
++CFLAGS= -DWMOPS=0 -DG192BITSTREAM=0 -fPIC -I $(BV32DIR) -I $(BVCOMMONDIR) -O -Wall -o $@
+@@ -38 +37 @@
+-	$(CC) -lm $(CFLAGS) -o ../process/BroadVoice32 $(OBJS)
++	$(CC) -shared $(CFLAGS) -o libbv32.so $(OBJS)-lm

@@ -1,0 +1,25 @@
+--- build_tools/menuselect-deps.in	(Asterisk 13.38.3)
++++ build_tools/menuselect-deps.in	(working copy)
+@@ -6,2 +6,3 @@
+ BISON=@PBX_BISON@
++BV32=@PBX_BV32@
+ CURL=@PBX_CURL@
+--- configure.ac	(Asterisk 13.38.3)
++++ configure.ac	(working copy)
+@@ -478,2 +478,3 @@
+ AST_EXT_LIB_SETUP([BLUETOOTH], [Bluetooth], [bluetooth])
++AST_EXT_LIB_SETUP([BV32], [BroadVoice32 Audio Decoder/Encoder], [bv32])
+ AST_EXT_LIB_SETUP([CAP], [POSIX 1.e capabilities], [cap])
+@@ -2561,2 +2562,4 @@
+ 
++AST_EXT_LIB_CHECK([BV32], [bv32], [BV32_Encode], [bv32/bv32.h])
++
+ AST_EXT_LIB_CHECK([SPEEX], [speex], [speex_encode], [speex/speex.h], [-lm])
+--- makeopts.in	(Asterisk 13.38.3)
++++ makeopts.in	(working copy)
+@@ -137,2 +137,5 @@
+ 
++BV32_INCLUDE=@BV32_INCLUDE@
++BV32_LIB=@BV32_LIB@
++
+ CURL_INCLUDE=@CURL_INCLUDE@
