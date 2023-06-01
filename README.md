@@ -16,9 +16,9 @@ At least Asterisk 13.7 is required. These changes were last tested with Asterisk
 
 Apply the patch:
 
-	wget github.com/traud/asterisk-broadvoice/archive/master.tar.gz
-	tar zxf master.tar.gz
-	rm master.tar.gz
+	wget github.com/traud/asterisk-broadvoice/archive/Library-1.0.tar.gz
+	tar zxf Library-1.0.tar.gz
+	rm Library-1.0.tar.gz
 	cp --verbose --recursive ./asterisk-broadvoice*/* ./
 	patch -p0 <./bv32_pass-through.patch
 
