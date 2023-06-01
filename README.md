@@ -22,6 +22,8 @@ Apply the patch:
 	cp --verbose --recursive ./asterisk-broadvoice*/* ./
 	patch -p0 <./bv32_pass-through.patch
 
+If you still use Asterisk 13, go for `bv32_pass-through_13.patch` instead.
+
 Install libraries:
 
 If you do not want transcoding but pass-through only, please, skip this step. To support transcoding, you’ll need to install the BroadVoice library from SignalWire FreeSWITCH, for example, in Debian/Ubuntu:
