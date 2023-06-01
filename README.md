@@ -56,6 +56,7 @@ If you do not want transcoding but pass-through only, please, skip this step. To
 	unzip -qq ./BroadVoice16OpenSource.v1.2.zip
 	cd ./BroadVoice16/FloatingPoint/
 	patch -p0 <~/Downloads/bv16_library.patch
+	sudo mkdir /usr/local/include/bv16-floatingpoint
 	sudo mkdir /usr/local/include/bv16-floatingpoint/bvcommon
 	sudo cp -R ./bvcommon/*.h /usr/local/include/bv16-floatingpoint/bvcommon/
 	sudo mkdir /usr/local/include/bv16-floatingpoint/bv16
